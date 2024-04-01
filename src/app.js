@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 const {authenticateUser, validateAuthentication} = require('./authentication/authenticate');
+const {signIn, getUser} = require('./api/api.js');
+const express = require('express');
+const bodyParser = require('body-parser');
 
 mongoose.connect("mongodb://127.0.0.1:27017/dsa_practice_project");
 
@@ -20,3 +23,21 @@ mongoose.connect("mongodb://127.0.0.1:27017/dsa_practice_project");
 //         console.log(val);
 //     }
 // )
+
+
+// const data = {
+//         'user_id' : 'javidh10@gmail.com',
+//         'auth' : {
+//             'email' : 'javidh10@gmail.com',
+//             'password' : 'pass1'
+//         },
+//         'name' : 'Javidh',
+//         'age' : 21,
+//     };
+
+const app = express();
+app.listen(1729, () => {console.log('1729')});
+app.use(express.json())
+
+app.get('/users/:user_id', getUser); 
+app.get('/sign_in', signIn);

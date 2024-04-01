@@ -17,13 +17,29 @@ const shema_enroled = {
 const users = mongoose.model(
     'users',
     {
-        'user_id' : String,
-        'auth' : {
-            'email' : String,
-            'password' : String,
+        'user_id' : {
+            type: String,
+            required: true,
+            unique: true,
         },
-        'name' : String,
-        'age' : Number,
+        'auth' : {
+            'email' : {
+                type: String,
+                required: true,
+            },
+            'password' : {
+                type: String,
+                required: true,
+            },
+        },
+        'name' : {
+            type: String,
+            required: true,
+        },
+        'age' : {
+            type: String,
+            required: true,
+        },
         'enrolled' : shema_enroled
     }
 );
@@ -47,15 +63,15 @@ const access_token = mongoose.model(
     }
 );
 
-// users.create({
-//     'user_id' : 'javidh@gmail.com',
-//     'auth' : {
-//         'email' : 'javidh@gmail.com',
-//         'password' : 'pass1'
-//     },
-//     'name' : 'Javidh',
-//     'age' : 20,
-// })
+users.create({
+    'user_id' : 'faizaan@gmail.com',
+    'auth' : {
+        'email' : 'faizaan@gmail.com',
+        'password' : 'pass1'
+    },
+    'name' : 'Faizaan',
+    'age' : 22,
+})
 
 module.exports = {
     users, access_token, sheets
