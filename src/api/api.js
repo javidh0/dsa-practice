@@ -6,10 +6,12 @@ async function createUser(data){
     let tr = await users.create(data);
     return tr;
 }
-
 async function getUser(req, res) {
     let auth = req.body.auth;
+    if(auth == null) return res.send({'error' : 'sign_in required'});
+
     console.log(auth.user_id);
+    
     validateAuthentication(
         auth.user_id, auth.access_token, 
         async val => {
@@ -23,7 +25,6 @@ async function getUser(req, res) {
         }    
     )
 }
-
 async function signIn(req, res) {
     console.log("signIn");
     let authData = req.body;
@@ -35,7 +36,36 @@ async function signIn(req, res) {
         }
     )
 }
+async function signUp(req, res){
+    let data = req.body;
+    users.create(data)
+    .then(val => {res.send(val)})
+    .catch(val => {res.send({"error": val.toString()})})
+}
+async function updateUser(req, res){
+    let data = req.body; 
+    let auth = req.body.auth;
+
+    if(auth == null || auth.user_id != data.user_id) 
+        return res.send({'error' : 'sign_in required'});
+
+    validateAuthentication(
+        auth.user_id, auth.access_token,
+        (val) => {
+            if(val == -1) return res.send({'error' : 'sign_in required'});
+            users.updateOne(
+                {"user_id": data.user_id},
+                data.data,
+            ).then(val => res.send(val))
+            .catch(val => res.send({'error': val.toString()}))
+        }
+    )
+}
+
+async function getSheets(req, res){
+    
+}
 
 module.exports = {
-    createUser, getUser, signIn
+    createUser, getUser, signIn, signUp, updateUser
 }
