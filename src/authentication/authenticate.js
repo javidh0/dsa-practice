@@ -1,4 +1,3 @@
-const { ObjectId } = require('mongodb');
 const {users, access_token} = require('../database.js');
 
 async function validateAuthentication(user_id, token, next){
@@ -14,7 +13,10 @@ async function validateAuthentication(user_id, token, next){
             next(token)
         );
     }
-    else next(-1);
+    else {
+        access_token.deleteOne({'user_id': user_id})
+        next(-1);
+    }
 }
 
 async function generateAccessToken(user){
