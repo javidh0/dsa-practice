@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const {authenticateUser, validateAuthentication} = require('./authentication/authenticate');
-const {signIn, getUser} = require('./api/api.js');
+const {signIn, getUser, signUp, updateUser} = require('./api/api.js');
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -41,3 +41,6 @@ app.use(express.json())
 
 app.get('/users/:user_id', getUser); 
 app.get('/sign_in', signIn);
+app.post('/sign_up', signUp);
+app.patch('/users/update', updateUser);
+
