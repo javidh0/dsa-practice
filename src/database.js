@@ -48,10 +48,10 @@ const sheets = mongoose.model(
     'sheets',
     {
         'name' : String,
-        'question' : {
+        'question' : [{
             'name' : String,
             'link' : String, 
-        },
+        }],
     }
 );
 
@@ -63,15 +63,15 @@ const access_token = mongoose.model(
     }
 );
 
-users.create({
-    'user_id' : 'faizaan@gmail.com',
-    'auth' : {
-        'email' : 'faizaan@gmail.com',
-        'password' : 'pass1'
-    },
-    'name' : 'Faizaan',
-    'age' : 22,
-})
+// users.create({
+//     'user_id' : 'faizaan@gmail.com',
+//     'auth' : {
+//         'email' : 'faizaan@gmail.com',
+//         'password' : 'pass1'
+//     },
+//     'name' : 'Faizaan',
+//     'age' : 22,
+// })
 
 module.exports = {
     users, access_token, sheets
