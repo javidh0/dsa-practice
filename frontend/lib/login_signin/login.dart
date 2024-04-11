@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/login_signin/my_provider.dart';
+import 'package:provider/provider.dart';
 // import 'package:frontend/utils/g_functions.dart';
 import '../utils/g_widgets.dart';
 
@@ -7,7 +9,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
         child: MyBaseCard(
           color: Color.fromRGBO(224, 157, 32, 1),
@@ -22,6 +24,7 @@ class LoginPage extends StatelessWidget {
             hints: ["1", "2", "3"],
             primaryClr: Colors.amber,
             leading: SizedBox(),
+            updateFuntion: context.read<LoginData>().updateData,
           ),
         ),
       ),
@@ -32,14 +35,16 @@ class LoginPage extends StatelessWidget {
 class MyListForm extends StatelessWidget {
   const MyListForm({
     super.key,
+    required this.leading,
     required this.hints,
     required this.primaryClr,
-    required this.leading,
+    required this.updateFuntion,
   });
 
   final List<String> hints;
   final Color primaryClr;
   final Widget leading;
+  final Function updateFuntion;
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +57,7 @@ class MyListForm extends StatelessWidget {
           text: hints[i],
           onChange: (val) {
             responses.add(val);
+            updateFuntion(i, val);
           },
         ),
       );
@@ -59,7 +65,9 @@ class MyListForm extends StatelessWidget {
 
     widgets.add(
       MyBaseButton(
-        onPressed: () {},
+        onPressed: () {
+          print(context.read<LoginData>().data);
+        },
       ),
     );
     return Container(
@@ -98,8 +106,8 @@ class _MyBaseButtonState extends State<MyBaseButton> {
           : () {
               setState(() {
                 isLoading = true;
-                widget.onPressed();
               });
+              widget.onPressed();
             },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.amber,
