@@ -4,6 +4,8 @@ const {signIn, getUser, signUp, updateUser, getAllSheets, getSheet, sheetEnrolle
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const cors = require('cors');
+
 
 mongoose.connect("mongodb://127.0.0.1:27017/dsa_practice_project");
 
@@ -37,6 +39,8 @@ mongoose.connect("mongodb://127.0.0.1:27017/dsa_practice_project");
 //     };
 
 const app = express();
+
+app.use(cors());
 app.listen(1729, () => {console.log('1729')});
 app.use(express.json())
 

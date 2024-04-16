@@ -2,6 +2,13 @@ const express = require('express');
 const {users, sheets} = require('../database.js');
 const {authenticateUser, validateAuthentication} = require('../authentication/authenticate.js');
 
+let headers = {
+    "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+    "Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
+    "Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+    "Access-Control-Allow-Methods": "POST, OPTIONS"
+  };
+
 async function createUser(data){
     let tr = await users.create(data);
     return tr;
@@ -24,8 +31,10 @@ async function getUser(req, res) {
     )
 }
 async function signIn(req, res) {
-    console.log("signIn");
+    
     let authData = req.body.auth;
+    console.log(authData);
+
     authenticateUser(
         authData,
         (val) => {
