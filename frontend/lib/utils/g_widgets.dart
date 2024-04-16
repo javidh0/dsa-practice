@@ -1,9 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../login_signin/my_provider.dart';
 import './g_functions.dart';
 
 void emptyCallback(val) {}
 
 void dummyCallback() {}
+
+class LogoWidget extends StatelessWidget {
+  const LogoWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.green,
+        borderRadius: BorderRadius.circular(50),
+      ),
+      child: const Text(
+        "The LoGo",
+        style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+}
 
 class MyListForm extends StatelessWidget {
   const MyListForm({
@@ -40,14 +61,16 @@ class MyListForm extends StatelessWidget {
       );
     }
 
-    widgets.add(
-      MyBaseButton(
-        onPressed: () {
-          // print(context.read<LoginData>().data);
-          sumbitFuntion();
-        },
-      ),
-    );
+    if (!context.watch<LoginData>().success) {
+      widgets.add(
+        MyBaseButton(
+          onPressed: () {
+            // print(context.read<LoginData>().data);
+            sumbitFuntion();
+          },
+        ),
+      );
+    }
     return Container(
       height: getHeight(context, height),
       decoration: BoxDecoration(
