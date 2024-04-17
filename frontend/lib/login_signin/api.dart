@@ -31,10 +31,30 @@ Future loginAPI(String userId, String password) async {
       },
       body: jsonEncode({
         "auth": {
-          "user_id": "javidh10@gmail.com",
-          "password": "pass",
+          "user_id": userId,
+          "password": password,
         },
       }),
+    );
+    return response.body;
+  } catch (error) {
+    return {"error": "error"};
+  }
+}
+
+Future registerAPI(Map data) async {
+  //   "http://localhost:1729/sign_in",
+  //   headers: {"Content-Type": "application/json"},
+  //   body: json.encode(bodyMap),
+  // );
+  try {
+    print(jsonEncode(data));
+    var response = await http.post(
+      Uri.parse('http://localhost:1729/sign_up'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(data),
     );
     return response.body;
   } catch (error) {
