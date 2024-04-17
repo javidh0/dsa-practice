@@ -14,16 +14,22 @@ class LoginPage extends StatelessWidget {
         child: MyBaseCard(
           color: const Color.fromRGBO(224, 157, 32, 1),
           child: MyListForm(
+            load: context.watch<LoginData>().load,
+            wrong: context.watch<LoginData>().wrong,
+            success: context.watch<LoginData>().success,
             hints: const ["Email id", "password"],
             primaryClr: Colors.amber,
             leading: const LogoWidget(),
             updateFuntion: context.read<LoginData>().updateData,
             sumbitFuntion: () async {
               var data = context.read<LoginData>().getData();
+              context.read<LoginData>().setLoad(true);
               await loginAPI(data[0], data[1]).then(
                 (value) {
-                  print("object");
-                  context.read<LoginData>().setSuccess();
+                  context.read<LoginData>().setSuccess(value);
+                  if (context.read<LoginData>().success) {
+                    Navigator.pushNamed(context, '/');
+                  }
                 },
               );
             },
