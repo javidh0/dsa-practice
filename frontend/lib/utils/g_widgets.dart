@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../login_signin/my_provider.dart';
 import './g_functions.dart';
 
 void emptyCallback(val) {}
@@ -33,6 +31,9 @@ class MyListForm extends StatelessWidget {
     required this.hints,
     required this.primaryClr,
     required this.updateFuntion,
+    required this.load,
+    required this.wrong,
+    required this.success,
     this.height = 50.0,
     this.sumbitFuntion = dummyCallback,
   });
@@ -42,6 +43,7 @@ class MyListForm extends StatelessWidget {
   final Widget leading;
   final Function updateFuntion, sumbitFuntion;
   final double height;
+  final bool load, wrong, success;
 
   @override
   Widget build(BuildContext context) {
@@ -61,11 +63,20 @@ class MyListForm extends StatelessWidget {
       );
     }
 
-    if (!context.watch<LoginData>().success) {
+    if (wrong) {
+      widgets.add(
+        const Text(
+          "Invalid credentials",
+          style: TextStyle(color: Colors.red),
+        ),
+      );
+    }
+
+    if (!success) {
       widgets.add(
         MyBaseButton(
+          load: load,
           onPressed: () {
-            // print(context.read<LoginData>().data);
             sumbitFuntion();
           },
         ),
@@ -91,20 +102,21 @@ class MyListForm extends StatelessWidget {
 class MyBaseButton extends StatefulWidget {
   const MyBaseButton({
     super.key,
+    required this.load,
     this.onPressed = dummyCallback,
   });
 
   final Function onPressed;
+  final bool load;
 
   @override
   State<MyBaseButton> createState() => _MyBaseButtonState();
 }
 
 class _MyBaseButtonState extends State<MyBaseButton> {
-  bool isLoading = false;
-
   @override
   Widget build(BuildContext context) {
+    bool isLoading = widget.load;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ElevatedButton.icon(
