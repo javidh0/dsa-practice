@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/home_page/home.dart';
+import 'package:frontend/home_page/my_profile.dart';
 import 'package:frontend/login_signin/register.dart';
 import 'login_signin/login.dart';
 import 'package:provider/provider.dart';
@@ -22,35 +24,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "Dsa-practice",
-      initialRoute: '/register',
+      initialRoute: '/account',
       routes: {
-        '/': (context) => const WidgetTest(),
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
+        '/home': (context) => const MyHomePage(),
+        '/account': (context) => const MyAccountPage(),
       },
-    );
-  }
-}
-
-class Welcome extends StatelessWidget {
-  const Welcome({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
-
-class WidgetTest extends StatelessWidget {
-  const WidgetTest({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Welcome(),
-      ),
     );
   }
 }
