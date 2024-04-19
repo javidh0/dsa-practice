@@ -1,9 +1,78 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import './g_functions.dart';
+import 'fonts.dart';
 
 void emptyCallback(val) {}
 
 void dummyCallback() {}
+
+class MyDrawer extends StatelessWidget {
+  const MyDrawer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        children: [
+          ListTile(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            leading: const Icon(Icons.arrow_back),
+            title: Text("App Name", style: textFont.copyWith(fontSize: 15)),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: Column(
+              children: [
+                const CircleAvatar(
+                  radius: 40,
+                  child: Icon(Icons.person, size: 35),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: AutoSizeText(
+                    "Mohammed Javidh",
+                    minFontSize: 10,
+                    style: textFont.copyWith(fontSize: 25),
+                  ),
+                )
+              ],
+            ),
+          ),
+          const Divider(),
+          const MyDrawerTile(),
+          const MyDrawerTile(),
+          const MyDrawerTile(),
+        ],
+      ),
+    );
+  }
+}
+
+class MyDrawerTile extends StatelessWidget {
+  const MyDrawerTile({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: ListTile(
+        tileColor: Colors.amber,
+        title: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: AutoSizeText(
+            "Drawer-1",
+            style: textFont.copyWith(fontSize: 25),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 class LogoWidget extends StatelessWidget {
   const LogoWidget({super.key});
