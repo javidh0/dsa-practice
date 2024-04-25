@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/home_page/api.dart';
+import 'package:frontend/login_signin/my_provider.dart';
 import 'package:frontend/utils/g_functions.dart';
+import 'package:provider/provider.dart';
 
 import '../utils/fonts.dart';
 import '../utils/g_widgets.dart';
@@ -32,42 +37,84 @@ class MyAccountPage extends StatelessWidget {
   }
 }
 
-class MyProfilePage extends StatelessWidget {
-  const MyProfilePage({super.key});
+class LoadingScreen extends StatelessWidget {
+  const LoadingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox.expand(
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: CircleAvatar(
-                radius: getHeight(context, 10),
-                child: Icon(
-                  Icons.person,
-                  size: getHeight(context, 8),
-                ),
-              ),
-            ),
-            AutoSizeText(
-              "Mohammed Javidh S",
-              minFontSize: 20,
-              overflow: TextOverflow.ellipsis,
-              style: textTitle,
-            ),
-            const SizedBox(height: 25),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Divider(),
-            ),
-            const EditProfileSection(),
-          ],
-        ),
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(47, 125, 122, 110),
+      body: Center(
+        child: Text("Loading...", style: textFont),
       ),
     );
+  }
+}
+
+class MyProfilePage extends StatefulWidget {
+  const MyProfilePage({super.key});
+
+  @override
+  State<MyProfilePage> createState() => _MyProfilePageState();
+}
+
+class _MyProfilePageState extends State<MyProfilePage> {
+  bool isLoading = true;
+
+  load() async {
+    var auth = context.read<LoginData>().accessKey;
+    var res = await getUser(auth);
+    return res;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    load().then((val) {
+      setState(() {
+        var data = jsonDecode(val);
+        if (data['error'] == null) isLoading = false;
+        print(data['error'] == null);
+      });
+      print(val);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return isLoading
+        ? const LoadingScreen()
+        : SizedBox.expand(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: CircleAvatar(
+                      radius: getHeight(context, 10),
+                      child: Icon(
+                        Icons.person,
+                        size: getHeight(context, 8),
+                      ),
+                    ),
+                  ),
+                  AutoSizeText(
+                    "Mohammed Javidh S",
+                    minFontSize: 20,
+                    overflow: TextOverflow.ellipsis,
+                    style: textTitle,
+                  ),
+                  const SizedBox(height: 25),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Divider(),
+                  ),
+                  const EditProfileSection(),
+                ],
+              ),
+            ),
+          );
   }
 }
 

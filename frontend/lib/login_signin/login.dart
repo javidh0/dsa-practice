@@ -28,7 +28,7 @@ class LoginPage extends StatelessWidget {
                 (value) {
                   context.read<LoginData>().setSuccess(value);
                   if (context.read<LoginData>().success) {
-                    Navigator.pushNamed(context, '/');
+                    Navigator.pushNamed(context, '/account');
                   }
                 },
               );
