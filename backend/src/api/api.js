@@ -14,8 +14,9 @@ async function createUser(data){
     return tr;
 }
 async function getUser(req, res) {
-    let auth = req.body.auth;
-    if(auth == null) return res.send({'error' : 'sign_in required'});
+    let auth = req.headers.auth;
+    console.log(auth);
+    if(auth == null) return res.send({'error' : 'sd'});
     
     validateAuthentication(
         auth.user_id, auth.access_token, 
