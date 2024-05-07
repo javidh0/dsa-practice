@@ -60,9 +60,11 @@ class MyProfilePage extends StatefulWidget {
 
 class _MyProfilePageState extends State<MyProfilePage> {
   bool isLoading = true;
+  var data = {};
 
   load() async {
     var auth = context.read<LoginData>().accessKey;
+    print(auth);
     var res = await getUser(auth);
     return res;
   }
@@ -72,11 +74,10 @@ class _MyProfilePageState extends State<MyProfilePage> {
     super.initState();
     load().then((val) {
       setState(() {
-        var data = jsonDecode(val);
+        data = jsonDecode(val);
         if (data['error'] == null) isLoading = false;
-        print(data['error'] == null);
+        print(data['name']);
       });
-      print(val);
     });
   }
 
@@ -100,7 +101,7 @@ class _MyProfilePageState extends State<MyProfilePage> {
                     ),
                   ),
                   AutoSizeText(
-                    "Mohammed Javidh S",
+                    data['name'],
                     minFontSize: 20,
                     overflow: TextOverflow.ellipsis,
                     style: textTitle,
@@ -179,7 +180,12 @@ class EditProfileSection extends StatelessWidget {
             child: Center(
               child: MyBaseButton(
                 load: false,
-                onPressed: () {},
+                onPressed: () async {
+                  print(data);
+                  var auth = context.read<LoginData>().accessKey;
+                  var res = await updateUser(auth, data);
+                  print(res);
+                },
               ),
             ),
           ),

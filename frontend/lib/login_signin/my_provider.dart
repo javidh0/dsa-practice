@@ -3,14 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 class LoginData extends ChangeNotifier {
-  List<String> data = ["javidh10@gmail.com", "pass1"];
-  Map accessKey = {
-    "auth": {
-      "user_id": "javidh10@gmail.com",
-      "access_token": "66237dd604af9ed66c43babd"
-    }
-  };
-  bool success = false;
+  List<String> data = ["", ""];
+  Map accessKey = {}  bool success = false;
   bool wrong = false;
   bool load = false;
 

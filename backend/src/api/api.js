@@ -15,7 +15,7 @@ async function createUser(data){
 }
 async function getUser(req, res) {
     let auth = req.headers.auth;
-    console.log(auth);
+    auth = JSON.parse(auth).auth;
     if(auth == null) return res.send({'error' : 'sd'});
     
     validateAuthentication(
@@ -24,6 +24,7 @@ async function getUser(req, res) {
             if(val != -1)  {
                 let user_id = req.params.user_id;
                 let tr = await users.findOne({user_id: user_id});
+                console.log(tr);
                 res.send(tr);
             } else {
                 res.send({'error' : 'sign_in required'});
@@ -54,10 +55,13 @@ async function signUp(req, res){
     .catch(val => {res.send({"error": val.toString()})})
 }
 async function updateUser(req, res){
-    let data = req.body.data; 
-    let auth = req.body.auth;
+    let data = req.body; 
+    let auth = req.headers.auth;
+    auth = JSON.parse(auth).auth;
 
-    if(auth == null || auth.user_id != data.user_id) 
+    console.log(req.body);
+
+    if(auth == null) 
         return res.send({'error' : 'sign_in required'});
 
     validateAuthentication(
@@ -65,8 +69,8 @@ async function updateUser(req, res){
         (val) => {
             if(val == -1) return res.send({'error' : 'sign_in required'});
             users.updateOne(
-                {"user_id": data.user_id},
-                data.data,
+                {"user_id": auth.user_id},
+                data,
             ).then(val => res.send(val))
             .catch(val => res.send({'error': val.toString()}))
         }

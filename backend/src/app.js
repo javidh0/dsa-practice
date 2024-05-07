@@ -47,7 +47,7 @@ app.use(express.json())
 app.get('/users/:user_id', getUser); 
 app.post('/sign_in', signIn);
 app.post('/sign_up', signUp);
-app.patch('/users/update', updateUser);
+app.post('/users/update', updateUser);
 
 app.get('/get_all_sheets', getAllSheets);
 app.get('/get_sheet', getSheet);
