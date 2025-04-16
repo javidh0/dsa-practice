@@ -1,4 +1,2 @@
 This is a file
 Hello world!
-creating conflict
-adding new line
